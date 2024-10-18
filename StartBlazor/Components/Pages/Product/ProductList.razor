@@ -1,4 +1,5 @@
 ﻿@page "/product"
+@using System.Globalization
 @inject IProductRepository _productRepository
 @inject IJSRuntime _js
 
@@ -36,7 +37,10 @@ else
                 <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th>Product Name</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Special Tag</th>
+                            <th>Category</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -45,6 +49,15 @@ else
                             <tr>
                                 <td>
                                     @product.Name
+                                </td>
+                                <td>
+                                    @product.Price.ToString("C", CultureInfo.GetCultureInfo("en-us"))
+                                </td>
+                                <td>
+                                    <span class="badge text-bg-info">@product.SpecialTag</span>
+                                </td>
+                                <td>
+                                    @product.Category.Name
                                 </td>
                                 <td>
                                     <a href="@($"product/update/{product.Id}")" class="btn btn-sm btn-primary">
