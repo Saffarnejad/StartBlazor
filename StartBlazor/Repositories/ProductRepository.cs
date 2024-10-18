@@ -7,10 +7,12 @@ namespace StartBlazor.Repositories
     public class ProductRepository : IProductRepository
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public ProductRepository(ApplicationDbContext context)
+        public ProductRepository(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         public async Task<Product> CreateAsync(Product product)
@@ -23,6 +25,11 @@ namespace StartBlazor.Repositories
         public async Task<bool> DeleteAsync(int id)
         {
             var product = await _context.Products.FirstOrDefaultAsync(c => c.Id == id);
+            var imagePath = Path.Combine(_webHostEnvironment.WebRootPath, product.ImageUrl.TrimStart('/'));
+            if (File.Exists(imagePath))
+            {
+                File.Delete(imagePath);
+            }
             if (product != null)
             {
                 _context.Products.Remove(product);
@@ -43,7 +50,7 @@ namespace StartBlazor.Repositories
 
         public async Task<IEnumerable<Product>> GetAllAsync()
         {
-            return await _context.Products.ToListAsync();
+            return await _context.Products.Include(product => product.Category).ToListAsync();
         }
 
         public async Task<Product> UpdateAsync(Product product)
