@@ -30,4 +30,12 @@ namespace StartBlazor.Data
 
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
+
+    public enum OrderStatus
+    {
+        Pending,
+        ReadyForPickUp,
+        Completed,
+        Cancelled
+    }
 }
