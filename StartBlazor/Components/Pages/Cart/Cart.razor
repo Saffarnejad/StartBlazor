@@ -168,6 +168,7 @@ else
         await Task.Yield();
         Order.OrderItems = ShoppingCartMapper.ToOrderItems(ShoppingCarts.ToList());
         await OrderRepository.CreateAsync(Order);
+        await ShoppingCartRepository.ClearAsync(Order.UserId);
         NavigationManager.NavigateTo($"/order/confirmation/{Order.Id}");
     }
 }
