@@ -6,6 +6,7 @@ namespace StartBlazor.Repositories.Contracts
     {
         public Task<bool> ClearAsync(string? userId);
         public Task<IEnumerable<ShoppingCart>> GetAllAsync(string? userId);
+        public Task<int> GetTotalItemsCountAsync(string? userId);
         public Task<bool> UpdateAsync(string userId, int productId, int count);
     }
 }

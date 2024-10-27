@@ -30,6 +30,15 @@ namespace StartBlazor.Repositories
                 .ToListAsync();
         }
 
+        public async Task<int> GetTotalItemsCountAsync(string? userId)
+        {
+            var shoppingCarts = await _context.ShoppingCarts
+                .Where(shoppingCart => shoppingCart.UserId == userId)
+                .ToListAsync();
+
+            return shoppingCarts.Sum(shoppingCart => shoppingCart.Count);
+        }
+
         public async Task<bool> UpdateAsync(string userId, int productId, int count)
         {
             if (string.IsNullOrWhiteSpace(userId))
