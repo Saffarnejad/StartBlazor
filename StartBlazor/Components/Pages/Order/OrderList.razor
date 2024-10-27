@@ -1,7 +1,6 @@
 ﻿@page "/order/list"
 
 @using Microsoft.AspNetCore.Authorization
-@using System.Globalization
 @using System.Security.Claims
 
 @inject IOrderRepository OrderRepository
@@ -28,38 +27,26 @@ else
         <div class="card-body p-4">
             @if (Orders.Any())
             {
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Phone Number</th>
-                            <th>Email</th>
-                            <th>Total Price</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var order in Orders)
-                        {
-                            <tr>
-                                <td>@order.Id</td>
-                                <td>@order.Name</td>
-                                <td>@order.PhoneNumber</td>
-                                <td>@order.Email</td>
-                                <td>@order.TotalPrice.ToString("C", CultureInfo.GetCultureInfo("en-us"))</td>
-                                <td>@order.Date</td>
-                                <td>@order.Status</td>
-                                <td>
-                                    <a href="@($"order/details/{order.Id}")" class="btn btn-sm btn-primary">
-                                        <i class="bi bi-pencil-square"></i> Details
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+                <RadzenDataGrid AllowFiltering="true" AllowColumnResize="true" AllowAlternatingRows="false" FilterMode="FilterMode.Advanced"
+                                AllowSorting="true" PageSize="5" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left"
+                                ShowPagingSummary="true" Data="@Orders" ColumnWidth="300px" LogicalFilterOperator="LogicalFilterOperator.Or"
+                                SelectionMode="DataGridSelectionMode.Single">
+                    <Columns>
+                        <RadzenDataGridColumn Property="Id" Title="ID" Frozen="true" Width="80px" Filterable="true" />
+                        <RadzenDataGridColumn Property="Name" Title="Name" Frozen="true" Width="120px" />
+                        <RadzenDataGridColumn Property="PhoneNumber" Title="Phone Number" Width="120px" />
+                        <RadzenDataGridColumn Property="Email" Title="Email" Width="160px" />
+                        <RadzenDataGridColumn Property="TotalPrice" Title="Total Price" FormatString="{0:C}" Width="120px" />
+                        <RadzenDataGridColumn Property="Date" Title="Date" FormatString="{0:d}" Width="160px" />
+                        <RadzenDataGridColumn Property="Status" Title="Status" Width="160px" />
+                        <RadzenDataGridColumn Title="Action" Sortable="false" Filterable="false" Width="80px" TextAlign="TextAlign.Center">
+                            <Template Context="order">
+                                <RadzenButton Shade="Shade.Lighter" Text="Details" ButtonStyle="ButtonStyle.Primary"
+                                              Click="@(()=>NavigationManager.NavigateTo($"order/details/{order.Id}"))"></RadzenButton>
+                            </Template>
+                        </RadzenDataGridColumn>
+                    </Columns>
+                </RadzenDataGrid>
             }
         </div>
     </div>
