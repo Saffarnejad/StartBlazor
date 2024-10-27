@@ -5,6 +5,7 @@ using Radzen;
 using StartBlazor.Components;
 using StartBlazor.Components.Account;
 using StartBlazor.Data;
+using StartBlazor.Helpers;
 using StartBlazor.Repositories;
 using StartBlazor.Repositories.Contracts;
 
@@ -22,6 +23,7 @@ builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<SharedStateService>();
 builder.Services.AddRadzenComponents();
 
 builder.Services.AddAuthentication(options =>
