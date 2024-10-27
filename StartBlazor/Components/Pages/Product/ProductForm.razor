@@ -153,7 +153,7 @@ else
     {
         IsImageLoading = true;
         var file = inputFile.File;
-        var fileInfo = new FileInfo(file.Name);
+        var fileInfo = new System.IO.FileInfo(file.Name);
         var newFileName = $"{Guid.NewGuid()}.{fileInfo.Extension}";
         if (!Directory.Exists(DirectoryPath))
         {
